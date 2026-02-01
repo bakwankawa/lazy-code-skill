@@ -2,7 +2,7 @@
 
 Quick setup to enable lazy-code-skill rules and skills in Cursor at **project level**.
 
-> **Important:** Cursor does not discover symlinked rules or skills. This installation uses copy-based setup. After updating lazy-code-skill, re-run the copy steps (see Updating).
+> **Important:** Cursor does not discover symlinked rules or skills. This installation uses copy-based setup. The cloned repo is removed after copy (step 6). To update, re-run the full installation (see Updating).
 
 ## Installation (project-level)
 
@@ -56,6 +56,20 @@ Copy only if your project does not already have `.cursor/project_architecture.md
 [ -f .cursor/project_architecture.md ] || cp .cursor/lazy-code-skill/.cursor/project_architecture.md .cursor/project_architecture.md
 ```
 
+### 6. Remove the cloned repo
+
+After copying, remove the clone so only skills and rules remain in your project:
+
+```bash
+rm -rf .cursor/lazy-code-skill
+```
+
+On Windows (PowerShell):
+
+```powershell
+Remove-Item -Recurse -Force .cursor/lazy-code-skill
+```
+
 ## Usage
 
 - **Skills** appear under Cursor Settings → Rules → Agent Decides. They can also be invoked manually in Agent chat with `/skill-name` (e.g. `/pre-commit-docs-sync`, `/dual-remote-push`).
@@ -63,12 +77,4 @@ Copy only if your project does not already have `.cursor/project_architecture.md
 
 ## Updating
 
-After pulling updates to the cloned repo, re-run the copy steps so your project gets the latest skills and rules:
-
-```bash
-cd .cursor/lazy-code-skill
-git pull
-cd ../..
-```
-
-Then run **steps 3, 4, and 5** from the Installation section above (copy skills, copy rules, optionally copy `project_architecture.md`).
+The clone is removed after install, so to get the latest skills and rules **re-run the full installation** (steps 1–6): clone again, copy skills and rules, then remove the clone again.
