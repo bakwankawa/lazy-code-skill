@@ -1,6 +1,6 @@
 ---
 name: pre-commit-docs-sync
-description: Ensures README.md and .cursor/project_architecture.md are fully updated and accurate BEFORE a commit is created. Prevents commits from landing with outdated, incomplete, or misleading documentation.
+description: Ensures README.md and .cursor/project_architecture.md are fully updated and accurate BEFORE a commit is created. README.md must function as a complete, step-by-step SOP for running and operating the application. Prevents commits from landing with outdated, incomplete, or misleading documentation.
 ---
 
 # Skill: Pre-Commit Documentation Sync
@@ -8,7 +8,10 @@ description: Ensures README.md and .cursor/project_architecture.md are fully upd
 ## Purpose
 
 Ensure project documentation is **fully aligned with code changes BEFORE committing**.  
-This skill acts as a **pre-commit gate**, guaranteeing that **README.md** and **project_architecture.md** accurately reflect all new features, fixes, refactors, or removals introduced by the pending changes.
+This skill acts as a **pre-commit gate**, guaranteeing that:
+
+- **README.md** serves as a complete, executable **SOP for running the application**
+- **project_architecture.md** accurately reflects system structure and flow
 
 The commit should only proceed once documentation parity is achieved.
 
@@ -57,34 +60,66 @@ From the diff, classify changes into one or more of the following:
 Extract:
 - What changed
 - Where it changed
-- How it affects users or system structure
+- How it affects users, developers, or system operation
 
 ---
 
-### Step 2: Update `README.md`
+### Step 2: Update `README.md` (MANDATORY SOP)
 
 **Location:** `README.md` (repository root)
 
+#### Role of README.md
+README.md is **not a marketing summary**.  
+It must function as a **complete operational SOP** that a future developer can follow **from zero to running system** without external explanation.
+
 #### Creation Rules
 - If the file does not exist, create it.
-- If it exists, update only relevant sections.
+- If it exists, update all impacted sections.
+- Never assume prior knowledge of the project.
 
-#### Required Updates
-- **Project summary**
-  - Adjust description if scope or capabilities changed
-- **Features**
-  - Add new features
-  - Revise changed ones
-  - Remove deprecated or deleted features
-- **Setup / Usage**
-  - Update commands, environment variables, configs, or workflows affected by the changes
-- **Optional: Pending Changes**
-  - Briefly mention impactful changes that will be included in the upcoming commit
+#### Required Sections (Enforced)
+
+README.md MUST include and maintain:
+
+1. **Project Overview**
+   - What the system does
+   - Who it is for (developers / operators)
+
+2. **Prerequisites**
+   - Required tools (e.g. Docker, Docker Compose, Node, Python, Make, etc.)
+   - Minimum versions if relevant
+
+3. **Environment Setup**
+   - Required environment variables
+   - `.env` files (what exists, what is required, examples)
+   - Secrets or credentials needed (without exposing values)
+
+4. **How to Run the Application (Local)**
+   - Step-by-step commands
+   - Clear ordering
+   - Expected outcome per step (what “success” looks like)
+
+5. **How to Run the Application (Docker / Containerized)**
+   - Docker build & run commands
+   - Docker Compose usage if applicable
+   - Ports, volumes, networks explained briefly
+
+6. **Configuration & Runtime Behavior**
+   - Important flags, configs, or modes
+   - Anything that materially affects runtime behavior
+
+7. **Common Changes Introduced by This Commit**
+   - New setup steps added
+   - Removed or changed commands
+   - Migration or breaking changes (if any)
 
 #### Constraints
-- Keep it concise and user-facing
-- Do **not** duplicate architecture details
-- Remove or rewrite any statement that is no longer true
+- Step-by-step, copy-paste friendly
+- Clear ordering (no missing steps)
+- No architectural deep dives
+- Remove or rewrite anything that is no longer true
+
+README.md must be **sufficient as a standalone SOP**.
 
 ---
 
@@ -110,7 +145,7 @@ Extract:
 #### Constraints
 - Architecture-level detail only
 - Clear, structured, agent-readable
-- Avoid verbose explanations or tutorials
+- No setup instructions or tutorials
 
 ---
 
@@ -119,7 +154,7 @@ Extract:
 - ❌ Do NOT change code
 - ❌ Do NOT create, amend, or execute commits
 - ❌ Do NOT invent features, fixes, or future plans
-- ❌ Do NOT allow the commit to proceed with stale documentation
+- ❌ Do NOT allow the commit to proceed with incomplete SOP documentation
 
 Documentation must reflect **exactly what the staged diff proves**.
 
@@ -130,9 +165,10 @@ Documentation must reflect **exactly what the staged diff proves**.
 Before allowing the commit, verify:
 
 - [ ] Changes were derived strictly from `git diff --staged`
-- [ ] README.md reflects current features and usage
+- [ ] README.md can be followed end-to-end by a new developer
+- [ ] Docker and local run paths are documented if applicable
+- [ ] Environment setup is explicit and complete
 - [ ] project_architecture.md reflects current structure and flow
-- [ ] All deprecated or removed elements are handled
 - [ ] No outdated, misleading, or speculative content remains
 
 ---
@@ -150,5 +186,6 @@ Before allowing the commit, verify:
 
 After running this skill:
 - Documentation is **accurate, complete, and commit-ready**
+- README.md acts as a **living SOP**, not a summary
 - Commits never introduce documentation debt
-- Future agents and developers can trust docs as a true representation of the codebase
+- Future developers can onboard and run the system without tribal knowledge

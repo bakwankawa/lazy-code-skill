@@ -9,7 +9,7 @@ This repo is a collection of **Cursor skills and rules** installable at **projec
 | Path | Role |
 |------|------|
 | `.cursor/INSTALL.md` | Install instructions: clone, copy skills/rules, optional project_architecture template. |
-| `.cursor/skills/` | Skills: dual-remote-push, efficient-code, latency-logging, new-project-scaffold, pre-commit-docs-sync, systematic-debugging, test-driven-development. |
+| `.cursor/skills/` | Skills: dual-remote-push, efficient-code, latency-logging, new-project-scaffold, pre-commit-docs-sync (enforces README as SOP), systematic-debugging, test-driven-development. |
 | `.cursor/rules/` | Rule: efficient-and-deliberate (efficiency and deliberate implementation). |
 | `.cursor/project_architecture.md` | Template for project architecture; copied on install if missing. |
 
