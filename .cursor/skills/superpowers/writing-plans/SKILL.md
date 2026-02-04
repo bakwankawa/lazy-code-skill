@@ -15,7 +15,9 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 
 **Context:** This should be run in a dedicated worktree (created by brainstorming skill).
 
-**Save plans to:** `docs/plans/YYYY-MM-DD-<feature-name>.md`
+**Save plans to:** `.cursor/plans/YYYY-MM-DD-<feature-name>.md`
+
+**Where to save (critical):** The plan must exist in the **same workspace** where it will be executed. If the user will run executing-plans in a **worktree** (they chose "Parallel Session" / option 2), save the plan **in that worktree** so the agent there can find it: either (a) write the file to the worktree path (e.g. `.worktrees/<branch-name>/.cursor/plans/<filename>.md` from repo root) if you know it, or (b) tell the user: "Open the worktree folder in Cursor (File → Open Folder → choose .worktrees/&lt;name&gt;), then in that window ask me to create the plan again so it is saved there." If the user will run in the **current session** (option 1), save to the current workspace's `.cursor/plans/`.
 
 ## Bite-Sized Task Granularity
 
@@ -98,7 +100,7 @@ git commit -m "feat: add specific feature"
 
 After saving the plan, offer execution choice:
 
-**"Plan complete and saved to `docs/plans/<filename>.md`. Two execution options:**
+**"Plan complete and saved to `.cursor/plans/<filename>.md`. Two execution options:**
 
 **1. Subagent-Driven (this session)** - I dispatch fresh subagent per task, review between tasks, fast iteration
 
@@ -112,5 +114,6 @@ After saving the plan, offer execution choice:
 - Fresh subagent per task + code review
 
 **If Parallel Session chosen:**
-- Guide them to open new session in worktree
+- Ensure the plan file exists in the worktree (see "Where to save" above). If the plan was created in another workspace, write it to the worktree's `.cursor/plans/` or tell the user to open the worktree and re-request the plan there.
+- Guide them to open new session in worktree (File → Open Folder → worktree path).
 - **REQUIRED SUB-SKILL:** New session uses superpowers:executing-plans

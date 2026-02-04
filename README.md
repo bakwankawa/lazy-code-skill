@@ -82,7 +82,7 @@ When you use the Superpowers-style skills, this is the intended order. The agent
 
 2. **using-git-worktrees** — After design approval. Creates isolated workspace on new branch, runs project setup, verifies clean test baseline.
 
-3. **writing-plans** — With approved design. Breaks work into bite-sized tasks (2–5 minutes each). Every task has exact file paths, complete code, verification steps.
+3. **writing-plans** — With approved design. Breaks work into bite-sized tasks (2–5 minutes each). Every task has exact file paths, complete code, verification steps. **If you will execute in a worktree (option 2):** open the worktree folder in Cursor first, then run writing-plans there so the plan is saved in that workspace.
 
 4. **subagent-driven-development** or **executing-plans** — With a plan. Dispatches fresh subagent per task with two-stage review (spec compliance, then code quality), or executes in batches with human checkpoints.
 
