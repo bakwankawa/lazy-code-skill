@@ -9,16 +9,17 @@ This repo is a collection of **Cursor skills and rules** installable at **projec
 | Path | Role |
 |------|------|
 | `.cursor/INSTALL.md` | Install instructions: clone, copy skills/rules, optional project_architecture template. |
-| `.cursor/skills/` | Superpowers: brainstorming, dispatching-parallel-agents, executing-plans, finishing-a-development-branch, receiving-code-review, requesting-code-review, subagent-driven-development, systematic-debugging, test-driven-development, using-git-worktrees, verification-before-completion, writing-plans, writing-skills. Own: dual-remote-push, efficient-code, latency-logging, new-project-scaffold, pre-commit-docs-sync. |
-| `.cursor/rules/` | efficient-and-deliberate (efficiency, deliberate implementation); using-superpowers (invoke skills before response; from Superpowers). |
-| `.cursor/scripts/` | sync-superpowers-skills.sh: pulls from obra/superpowers and copies skills into .cursor/skills/. |
+| `.cursor/skills/lazy-code-skill/` | Own skills: dual-remote-push, efficient-code, latency-logging, new-project-scaffold, pre-commit-docs-sync. |
+| `.cursor/skills/superpowers/` | From obra/superpowers: brainstorming, dispatching-parallel-agents, executing-plans, finishing-a-development-branch, receiving-code-review, requesting-code-review, subagent-driven-development, systematic-debugging, test-driven-development, using-git-worktrees, verification-before-completion, writing-plans, writing-skills. |
+| `.cursor/rules/` | skill-first-engineering (single rule: skills first + deliberate, efficient implementation; replaces former efficient-and-deliberate and using-superpowers). |
+| `.cursor/scripts/` | sync-superpowers-skills.sh: pulls from obra/superpowers and copies into .cursor/skills/superpowers/ only. |
 | `.cursor/project_architecture.md` | Template for project architecture; copied on install if missing. |
 | `.cursor/lazy-code-skill-README.md` | Copy of repo README (Basic Workflow, install, sync); copied on install so it does not overwrite project README. |
 
 ## Data Flow
 
 1. User pastes the raw INSTALL.md URL in Cursor Agent.
-2. Agent fetches INSTALL.md and runs: clone repo into `.cursor/lazy-code-skill`, copy skills, rules, and README (as `.cursor/lazy-code-skill-README.md` for Basic Workflow reference), then remove the clone so only `.cursor/skills/lazy-code-skill/`, `.cursor/rules/lazy-code-skill-*.mdc`, and `.cursor/lazy-code-skill-README.md` remain.
+2. Agent fetches INSTALL.md and runs: clone repo into `.cursor/lazy-code-skill`, copy both skill folders, rules (replacing existing lazy-code-skill-*.mdc), and README (as `.cursor/lazy-code-skill-README.md`); copy project_architecture.md only if missing. Then remove the clone. Re-running install force-updates skills, rules, and README; **`.cursor/plans/` and `.cursor/project_architecture.md` are never overwritten** if they already exist.
 3. Cursor discovers skills and rules from `.cursor/skills/` and `.cursor/rules/`.
 
 ## Deprecated / Removed

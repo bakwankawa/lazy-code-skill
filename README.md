@@ -2,7 +2,7 @@
 
 ## 1. Project Overview
 
-**What it does:** Collection of Cursor **skills** and **rules**: includes [Superpowers](https://github.com/obra/superpowers)-style workflow skills (brainstorming, writing-plans, TDD, debugging, code review, git worktrees, etc.) plus own skills (pre-commit docs sync, new-project scaffold, dual-remote push, efficient code, latency logging). **using-superpowers** is a rule (invoke relevant skills before response). Install at **project level** so any Cursor project can use them.
+**What it does:** Collection of Cursor **skills** and **rules** in two namespaces: **`.cursor/skills/lazy-code-skill/`** (own: pre-commit docs sync, new-project scaffold, dual-remote push, efficient code, latency logging) and **`.cursor/skills/superpowers/`** (from [Superpowers](https://github.com/obra/superpowers): brainstorming, writing-plans, TDD, debugging, code review, git worktrees, etc.). One **rule**: **skill-first-engineering** (skills first + deliberate, efficient implementation). Install at **project level** so any Cursor project can use them.
 
 **Who it is for:** Developers using Cursor who want shared workflows and standards (docs sync, scaffolding, dual-remote push, etc.) in their projects.
 
@@ -43,12 +43,13 @@ The agent will (or you can run from project root):
 
 1. Clone this repo into `.cursor/lazy-code-skill`
 2. Create `.cursor/skills` and `.cursor/rules`
-3. Copy skills to `.cursor/skills/lazy-code-skill/`
+3. Copy both skill folders to `.cursor/skills/lazy-code-skill/` and `.cursor/skills/superpowers/`
 4. Copy rules to `.cursor/rules/` with prefix `lazy-code-skill-`
-5. Optionally copy `.cursor/project_architecture.md` if your project doesn’t have it
-6. Remove the clone (`.cursor/lazy-code-skill`) so only skills and rules remain
+5. Copy `.cursor/project_architecture.md` only if missing (never overwrite if user already has it)
+6. Copy README to `.cursor/lazy-code-skill-README.md` (Basic Workflow reference)
+7. Remove the clone so only skills, rules, and README copy remain. `.cursor/plans/` and `.cursor/project_architecture.md` are never overwritten if they exist.
 
-**Success:** You have `.cursor/skills/lazy-code-skill/` and `.cursor/rules/lazy-code-skill-*.mdc`. Cursor discovers them automatically.
+**Success:** You have `.cursor/skills/lazy-code-skill/`, `.cursor/skills/superpowers/`, and `.cursor/rules/lazy-code-skill-*.mdc`. Cursor discovers them automatically.
 
 ### Step 3: Use skills and rules
 
@@ -68,8 +69,8 @@ Not applicable. This repo is Cursor skills and rules only; there is no applicati
 ## 6. Configuration & Runtime Behavior
 
 - **Skills** are invoked by the agent when relevant or manually via `/skill-name`.
-- **Rules** (e.g. `lazy-code-skill-efficient-and-deliberate.mdc`, `lazy-code-skill-using-superpowers.mdc`) apply at project level when Cursor loads the project.
-- **Updating:** Re-run the full install (steps in section 4) to get the latest skills and rules; the clone is removed after install.
+- **Rules** (e.g. `lazy-code-skill-skill-first-engineering.mdc`) apply at project level when Cursor loads the project.
+- **Updating:** Re-run the full install (steps in section 4) to force-update skills, rules, and README copy. `.cursor/plans/` and `.cursor/project_architecture.md` are never overwritten if they exist.
 
 ---
 
@@ -101,6 +102,7 @@ When you use the Superpowers-style skills, this is the intended order. The agent
 
 - **Install: copy README on install.** INSTALL.md now includes step 6: copy repo README to `.cursor/lazy-code-skill-README.md` in the target project so Basic Workflow and sync instructions are available without overwriting the project's README.
 - **project_architecture.md:** Data flow and Components updated to include `.cursor/lazy-code-skill-README.md`.
+- **Cursor adaptation (Superpowers):** Skills in `.cursor/skills/superpowers/` updated for Cursor: paths (`.cursor/skills/`), project rules (`.cursor/rules/`), agent-agnostic wording (ASO), Cursor variant in writing-skills examples, Subagents note in subagent-driven-development and dispatching-parallel-agents.
 
 ---
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Sync skills from obra/superpowers (main) into this repo's .cursor/skills/.
-# Run from repo root. Does not overwrite "own" skills (see OWN_SKILLS below).
-# using-superpowers is kept as a RULE in .cursor/rules/ — not synced as a skill.
+# Sync skills from obra/superpowers (main) into this repo's .cursor/skills/superpowers/.
+# Run from repo root. .cursor/skills/lazy-code-skill/ is never touched.
+# Skills-first behavior lives in .cursor/rules/skill-first-engineering.mdc (not synced from upstream).
 
 set -e
 
@@ -9,9 +9,9 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 UPSTREAM_URL="https://github.com/obra/superpowers.git"
 UPSTREAM_BRANCH="main"
 UPSTREAM_DIR="${REPO_ROOT}/.cursor/.superpowers-upstream"
-SKILLS_DIR="${REPO_ROOT}/.cursor/skills"
+SUPERPOWERS_SKILLS_DIR="${REPO_ROOT}/.cursor/skills/superpowers"
 
-# Skills to copy from Superpowers (using-superpowers is a rule here, not a skill)
+# Skills to copy from Superpowers
 SUPERPOWERS_SKILLS=(
   brainstorming
   dispatching-parallel-agents
@@ -28,9 +28,6 @@ SUPERPOWERS_SKILLS=(
   writing-skills
 )
 
-# Own skills: never overwrite these (we don't copy from upstream for these names)
-OWN_SKILLS=(dual-remote-push efficient-code latency-logging new-project-scaffold pre-commit-docs-sync)
-
 cd "$REPO_ROOT"
 
 echo "Cloning or pulling Superpowers (${UPSTREAM_BRANCH})..."
@@ -40,18 +37,18 @@ else
   git clone --depth 1 --branch "$UPSTREAM_BRANCH" "$UPSTREAM_URL" "$UPSTREAM_DIR"
 fi
 
-mkdir -p "$SKILLS_DIR"
+mkdir -p "$SUPERPOWERS_SKILLS_DIR"
 UPSTREAM_SKILLS="${UPSTREAM_DIR}/skills"
 
 for name in "${SUPERPOWERS_SKILLS[@]}"; do
   if [ -d "${UPSTREAM_SKILLS}/${name}" ]; then
     echo "Syncing skill: ${name}"
-    rm -rf "${SKILLS_DIR:?}/${name}"
-    cp -r "${UPSTREAM_SKILLS}/${name}" "${SKILLS_DIR}/"
+    rm -rf "${SUPERPOWERS_SKILLS_DIR:?}/${name}"
+    cp -r "${UPSTREAM_SKILLS}/${name}" "${SUPERPOWERS_SKILLS_DIR}/"
   else
     echo "Skip (not found upstream): ${name}"
   fi
 done
 
-echo "Done. using-superpowers is a rule in .cursor/rules/ — not overwritten."
+echo "Done. .cursor/skills/lazy-code-skill/ is unchanged."
 echo "Review changes with: git status ; git diff"
