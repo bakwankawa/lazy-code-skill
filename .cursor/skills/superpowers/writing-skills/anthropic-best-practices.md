@@ -405,7 +405,7 @@ For reference files longer than 100 lines, include a table of contents at the to
 ...
 ```
 
-Claude can then read the complete file or jump to specific sections as needed.
+The agent can then read the complete file or jump to specific sections as needed.
 
 For details on how this filesystem-based architecture enables progressive disclosure, see the [Runtime environment](#runtime-environment) section in the Advanced section below.
 
