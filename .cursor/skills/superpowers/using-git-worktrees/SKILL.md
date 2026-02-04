@@ -1,125 +1,53 @@
 ---
 name: using-git-worktrees
-description: Use when starting feature work that needs isolation from current workspace or before executing implementation plans - creates isolated git worktrees with smart directory selection and safety verification
+description: Use when starting feature work that needs isolation from the current workspace or before executing implementation plans. Guides using Cursor's built-in worktree/Parallel Agents flow so the agent and plans run in the same workspace.
 ---
 
-# Using Git Worktrees
+# Using Git Worktrees (Cursor-Aligned)
 
-## Overview
+## When to Use
 
-Git worktrees create isolated workspaces sharing the same repository, allowing work on multiple branches simultaneously without switching.
+- Before executing implementation plans that should run in isolation
+- When brainstorming/subagent-driven-development requires an isolated workspace
+- When the user wants to work on a feature branch without touching the current workspace
 
-**Core principle:** Systematic directory selection + safety verification = reliable isolation.
+**Announce at start:** "I'm using the using-git-worktrees skill to set up an isolated workspace with Cursor's flow."
 
-**Announce at start:** "I'm using the using-git-worktrees skill to set up an isolated workspace."
+## Cursor's Built-in Worktree Flow
 
-## Directory Selection Process
+Cursor can create and use Git worktrees in a **fixed, user-global location** (e.g. `~/.cursor/worktrees/<repo>/<id>`). Use that flow so plans and edits live in the **same workspace** the agent sees.
 
-Follow this priority order:
+### 1. Start Isolated Work
 
-### 1. Check Existing Directories
+- **Parallel Agents:** Use Cursor's Parallel Agents (or equivalent) so Cursor creates a worktree and opens a session there.
+- **Or:** User opens a new Cursor window and starts a session "in worktree" if the UI offers it.
 
-```bash
-# Check in priority order
-ls -d .worktrees 2>/dev/null     # Preferred (hidden)
-ls -d worktrees 2>/dev/null      # Alternative
-```
+Result: the agent runs in a workspace that is a Git worktree (separate branch, same repo). No project-local `.worktrees/` or manual `git worktree add` required for the standard case.
 
-**If found:** Use that directory. If both exist, `.worktrees` wins.
+### 2. Where Plans and Files Live
 
-### 2. Check CLAUDE.md
+- **Critical:** Implementation plans (e.g. `.cursor/plans/*.md`) must be in the **worktree workspace** that will execute them.
+- If the user will run **executing-plans** in that worktree session, the plan must be created or saved **in that worktree** (e.g. that window's `.cursor/plans/`).
+- If the plan was created in the main repo: either (a) write the plan file into the worktree's `.cursor/plans/` from the main repo (if the worktree path is known), or (b) tell the user to open the worktree folder in Cursor and create the plan again there.
 
-```bash
-grep -i "worktree.*director" CLAUDE.md 2>/dev/null
-```
+### 3. After Work Is Done
 
-**If preference specified:** Use it without asking.
+- Use **finishing-a-development-branch** in the worktree session to merge/push, then discard or keep the worktree as needed.
+- Cursor-managed worktrees are cleaned up via Cursor or the user's workflow; no project-local cleanup of `.worktrees/` required.
 
-### 3. Ask User
+## Optional: Project-Local Worktrees
 
-If no directory exists and no CLAUDE.md preference:
+If the user or project explicitly wants **project-local** worktrees (e.g. `.worktrees/` in the repo):
 
-```
-No worktree directory found. Where should I create worktrees?
+1. Prefer a directory already in use: `.worktrees/` or `worktrees/` (if present).
+2. **Must** ensure that directory is in `.gitignore` and run `git check-ignore -q .worktrees` (or `worktrees`) before creating a worktree there.
+3. Create with: `git worktree add .worktrees/<branch-name> -b <branch-name>`, then run project setup and baseline tests as in the "Verify baseline" section below.
 
-1. .worktrees/ (project-local, hidden)
-2. ~/.config/superpowers/worktrees/<project-name>/ (global location)
+Treat this as the exception; default to Cursor's flow above.
 
-Which would you prefer?
-```
+## Verify Baseline (Any Worktree)
 
-## Safety Verification
-
-### For Project-Local Directories (.worktrees or worktrees)
-
-**MUST verify directory is ignored before creating worktree:**
-
-```bash
-# Check if directory is ignored (respects local, global, and system gitignore)
-git check-ignore -q .worktrees 2>/dev/null || git check-ignore -q worktrees 2>/dev/null
-```
-
-**If NOT ignored:**
-
-Per Jesse's rule "Fix broken things immediately":
-1. Add appropriate line to .gitignore
-2. Commit the change
-3. Proceed with worktree creation
-
-**Why critical:** Prevents accidentally committing worktree contents to repository.
-
-### For Global Directory (~/.config/superpowers/worktrees)
-
-No .gitignore verification needed - outside project entirely.
-
-## Creation Steps
-
-### 1. Detect Project Name
-
-```bash
-project=$(basename "$(git rev-parse --show-toplevel)")
-```
-
-### 2. Create Worktree
-
-```bash
-# Determine full path
-case $LOCATION in
-  .worktrees|worktrees)
-    path="$LOCATION/$BRANCH_NAME"
-    ;;
-  ~/.config/superpowers/worktrees/*)
-    path="~/.config/superpowers/worktrees/$project/$BRANCH_NAME"
-    ;;
-esac
-
-# Create worktree with new branch
-git worktree add "$path" -b "$BRANCH_NAME"
-cd "$path"
-```
-
-### 3. Run Project Setup
-
-Auto-detect and run appropriate setup:
-
-```bash
-# Node.js
-if [ -f package.json ]; then npm install; fi
-
-# Rust
-if [ -f Cargo.toml ]; then cargo build; fi
-
-# Python
-if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-if [ -f pyproject.toml ]; then poetry install; fi
-
-# Go
-if [ -f go.mod ]; then go mod download; fi
-```
-
-### 4. Verify Clean Baseline
-
-Run tests to ensure worktree starts clean:
+When a worktree is ready (Cursor-created or project-local), run the project's test command to confirm a clean baseline:
 
 ```bash
 # Examples - use project-appropriate command
@@ -129,90 +57,26 @@ pytest
 go test ./...
 ```
 
-**If tests fail:** Report failures, ask whether to proceed or investigate.
+**If tests fail:** Report failures and ask whether to proceed or investigate.
 
-**If tests pass:** Report ready.
-
-### 5. Report Location
-
-```
-Worktree ready at <full-path>
-Tests passing (<N> tests, 0 failures)
-Ready to implement <feature-name>
-```
+**If tests pass:** Report ready, e.g. "Worktree ready. Tests passing (N tests, 0 failures). Ready to implement <feature>."
 
 ## Quick Reference
 
-| Situation | Action |
-|-----------|--------|
-| `.worktrees/` exists | Use it (verify ignored) |
-| `worktrees/` exists | Use it (verify ignored) |
-| Both exist | Use `.worktrees/` |
-| Neither exists | Check CLAUDE.md → Ask user |
-| Directory not ignored | Add to .gitignore + commit |
-| Tests fail during baseline | Report failures + ask |
-| No package.json/Cargo.toml | Skip dependency install |
-
-## Common Mistakes
-
-### Skipping ignore verification
-
-- **Problem:** Worktree contents get tracked, pollute git status
-- **Fix:** Always use `git check-ignore` before creating project-local worktree
-
-### Assuming directory location
-
-- **Problem:** Creates inconsistency, violates project conventions
-- **Fix:** Follow priority: existing > CLAUDE.md > ask
-
-### Proceeding with failing tests
-
-- **Problem:** Can't distinguish new bugs from pre-existing issues
-- **Fix:** Report failures, get explicit permission to proceed
-
-### Hardcoding setup commands
-
-- **Problem:** Breaks on projects using different tools
-- **Fix:** Auto-detect from project files (package.json, etc.)
-
-## Example Workflow
-
-```
-You: I'm using the using-git-worktrees skill to set up an isolated workspace.
-
-[Check .worktrees/ - exists]
-[Verify ignored - git check-ignore confirms .worktrees/ is ignored]
-[Create worktree: git worktree add .worktrees/auth -b feature/auth]
-[Run npm install]
-[Run npm test - 47 passing]
-
-Worktree ready at /Users/jesse/myproject/.worktrees/auth
-Tests passing (47 tests, 0 failures)
-Ready to implement auth feature
-```
-
-## Red Flags
-
-**Never:**
-- Create worktree without verifying it's ignored (project-local)
-- Skip baseline test verification
-- Proceed with failing tests without asking
-- Assume directory location when ambiguous
-- Skip CLAUDE.md check
-
-**Always:**
-- Follow directory priority: existing > CLAUDE.md > ask
-- Verify directory is ignored for project-local
-- Auto-detect and run project setup
-- Verify clean test baseline
+| Goal | Action |
+|------|--------|
+| Isolated workspace for plans/features | Use Cursor's Parallel Agents / session-in-worktree flow |
+| Plans executed in worktree | Create or copy plan into that worktree's `.cursor/plans/` |
+| Project-local worktree | Use `.worktrees/` or `worktrees/` only if ignored; then `git worktree add` |
+| After work done | Use finishing-a-development-branch in that session |
 
 ## Integration
 
-**Called by:**
-- **brainstorming** (Phase 4) - REQUIRED when design is approved and implementation follows
-- **subagent-driven-development** - REQUIRED before executing any tasks
-- **executing-plans** - REQUIRED before executing any tasks
-- Any skill needing isolated workspace
+**Called by / pairs with:**
 
-**Pairs with:**
-- **finishing-a-development-branch** - REQUIRED for cleanup after work complete
+- **brainstorming** — when design is approved and implementation follows
+- **writing-plans** — save plan in the worktree workspace if execution will be there
+- **executing-plans** — run in the worktree session where the plan lives
+- **finishing-a-development-branch** — cleanup/merge from the worktree session
+
+**Red flags:** Do not assume the plan lives in the main repo when execution will run in a Cursor-created worktree; ensure the plan is in that worktree's workspace.
