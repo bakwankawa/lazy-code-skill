@@ -9,8 +9,9 @@ This repo is a collection of **Cursor skills and rules** installable at **projec
 | Path | Role |
 |------|------|
 | `.cursor/INSTALL.md` | Install instructions: clone, copy skills/rules, optional project_architecture template. |
-| `.cursor/skills/` | Skills: dual-remote-push, efficient-code, latency-logging, new-project-scaffold, pre-commit-docs-sync (enforces README as SOP), systematic-debugging, test-driven-development. |
-| `.cursor/rules/` | Rule: efficient-and-deliberate (efficiency and deliberate implementation). |
+| `.cursor/skills/` | Superpowers: brainstorming, dispatching-parallel-agents, executing-plans, finishing-a-development-branch, receiving-code-review, requesting-code-review, subagent-driven-development, systematic-debugging, test-driven-development, using-git-worktrees, verification-before-completion, writing-plans, writing-skills. Own: dual-remote-push, efficient-code, latency-logging, new-project-scaffold, pre-commit-docs-sync. |
+| `.cursor/rules/` | efficient-and-deliberate (efficiency, deliberate implementation); using-superpowers (invoke skills before response; from Superpowers). |
+| `.cursor/scripts/` | sync-superpowers-skills.sh: pulls from obra/superpowers and copies skills into .cursor/skills/. |
 | `.cursor/project_architecture.md` | Template for project architecture; copied on install if missing. |
 
 ## Data Flow
