@@ -13,11 +13,12 @@ This repo is a collection of **Cursor skills and rules** installable at **projec
 | `.cursor/rules/` | efficient-and-deliberate (efficiency, deliberate implementation); using-superpowers (invoke skills before response; from Superpowers). |
 | `.cursor/scripts/` | sync-superpowers-skills.sh: pulls from obra/superpowers and copies skills into .cursor/skills/. |
 | `.cursor/project_architecture.md` | Template for project architecture; copied on install if missing. |
+| `.cursor/lazy-code-skill-README.md` | Copy of repo README (Basic Workflow, install, sync); copied on install so it does not overwrite project README. |
 
 ## Data Flow
 
 1. User pastes the raw INSTALL.md URL in Cursor Agent.
-2. Agent fetches INSTALL.md and runs: clone repo into `.cursor/lazy-code-skill`, copy skills and rules, then remove the clone so only `.cursor/skills/lazy-code-skill/` and `.cursor/rules/lazy-code-skill-*.mdc` remain.
+2. Agent fetches INSTALL.md and runs: clone repo into `.cursor/lazy-code-skill`, copy skills, rules, and README (as `.cursor/lazy-code-skill-README.md` for Basic Workflow reference), then remove the clone so only `.cursor/skills/lazy-code-skill/`, `.cursor/rules/lazy-code-skill-*.mdc`, and `.cursor/lazy-code-skill-README.md` remain.
 3. Cursor discovers skills and rules from `.cursor/skills/` and `.cursor/rules/`.
 
 ## Deprecated / Removed

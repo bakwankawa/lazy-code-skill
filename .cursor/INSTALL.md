@@ -56,9 +56,25 @@ Copy only if your project does not already have `.cursor/project_architecture.md
 [ -f .cursor/project_architecture.md ] || cp .cursor/lazy-code-skill/.cursor/project_architecture.md .cursor/project_architecture.md
 ```
 
-### 6. Remove the cloned repo
+### 6. Copy README (Basic Workflow reference)
 
-After copying, remove the clone so only skills and rules remain in your project:
+Copy the lazy-code-skill README into `.cursor/` so you have the Basic Workflow and install reference without overwriting your project’s README:
+
+```bash
+cp .cursor/lazy-code-skill/README.md .cursor/lazy-code-skill-README.md
+```
+
+On Windows (PowerShell):
+
+```powershell
+Copy-Item .cursor/lazy-code-skill/README.md .cursor/lazy-code-skill-README.md
+```
+
+You can open `.cursor/lazy-code-skill-README.md` anytime for the Basic Workflow (brainstorming → writing-plans → TDD → etc.) and sync instructions.
+
+### 7. Remove the cloned repo
+
+After copying, remove the clone so only skills, rules, and the README copy remain in your project:
 
 ```bash
 rm -rf .cursor/lazy-code-skill
@@ -77,4 +93,4 @@ Remove-Item -Recurse -Force .cursor/lazy-code-skill
 
 ## Updating
 
-The clone is removed after install, so to get the latest skills and rules **re-run the full installation** (steps 1–6): clone again, copy skills and rules, then remove the clone again.
+The clone is removed after install, so to get the latest skills and rules **re-run the full installation** (steps 1–7): clone again, copy skills, rules, and README, then remove the clone again.

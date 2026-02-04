@@ -99,9 +99,8 @@ When you use the Superpowers-style skills, this is the intended order. The agent
 
 ## 7. Common Changes Introduced by This Commit
 
-- **Superpowers import:** 13 skills from [obra/superpowers](https://github.com/obra/superpowers) (brainstorming, writing-plans, TDD, debugging, code review, git worktrees, etc.) synced into `.cursor/skills/`. **using-superpowers** added as a **rule** in `.cursor/rules/` (invoke relevant skills before response).
-- **Sync script:** `.cursor/scripts/sync-superpowers-skills.sh` — run to pull latest from Superpowers and update skills; instruct the agent to run it when you want to update.
-- **README:** Basic Workflow section added (from Superpowers) as reference; overview and rules list updated.
+- **Install: copy README on install.** INSTALL.md now includes step 6: copy repo README to `.cursor/lazy-code-skill-README.md` in the target project so Basic Workflow and sync instructions are available without overwriting the project's README.
+- **project_architecture.md:** Data flow and Components updated to include `.cursor/lazy-code-skill-README.md`.
 
 ---
 
