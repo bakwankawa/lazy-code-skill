@@ -234,7 +234,7 @@ git commit -m "docs(superpowers): add Cursor Subagents note in subagent-driven-d
 
 After saving this plan, offer:
 
-**Plan complete and saved to `docs/plans/2025-02-01-cursor-adaptation.md`. Two execution options:**
+**Plan complete and saved to `.cursor/plans/2025-02-01-cursor-adaptation.md`. Two execution options:**
 
 **1. Subagent-Driven (this session)** — I dispatch a fresh subagent per task, review between tasks, fast iteration.
 
