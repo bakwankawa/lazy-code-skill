@@ -25,22 +25,24 @@ Use branch `main`; if your clone defaults to another branch, run `git -C .cursor
 mkdir -p .cursor/skills .cursor/rules
 ```
 
-### 3. Copy skills (two namespaces)
+### 3. Copy skills (three namespaces)
 
-Copy both skill folders so you get `.cursor/skills/lazy-code-skill/` (own skills) and `.cursor/skills/superpowers/` (from [Superpowers](https://github.com/obra/superpowers)):
+Copy all three skill folders: `.cursor/skills/lazy-code-skill/` (own), `.cursor/skills/superpowers/` (from [Superpowers](https://github.com/obra/superpowers)), and `.cursor/skills/anthropic/` (from [anthropics/skills](https://github.com/anthropics/skills)):
 
 ```bash
-rm -rf .cursor/skills/lazy-code-skill .cursor/skills/superpowers
+rm -rf .cursor/skills/lazy-code-skill .cursor/skills/superpowers .cursor/skills/anthropic
 cp -r .cursor/lazy-code-skill/.cursor/skills/lazy-code-skill .cursor/skills/
 cp -r .cursor/lazy-code-skill/.cursor/skills/superpowers .cursor/skills/
+cp -r .cursor/lazy-code-skill/.cursor/skills/anthropic .cursor/skills/
 ```
 
 On Windows (PowerShell):
 
 ```powershell
-Remove-Item -Recurse -Force .cursor/skills/lazy-code-skill, .cursor/skills/superpowers -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force .cursor/skills/lazy-code-skill, .cursor/skills/superpowers, .cursor/skills/anthropic -ErrorAction SilentlyContinue
 Copy-Item -Recurse .cursor/lazy-code-skill/.cursor/skills/lazy-code-skill .cursor/skills/
 Copy-Item -Recurse .cursor/lazy-code-skill/.cursor/skills/superpowers .cursor/skills/
+Copy-Item -Recurse .cursor/lazy-code-skill/.cursor/skills/anthropic .cursor/skills/
 ```
 
 ### 4. Copy rules (with prefix, force update)
@@ -115,3 +117,13 @@ Remove-Item -Recurse -Force .cursor/lazy-code-skill
 ## Updating
 
 Re-run the same installation (steps 1–7) to **force update** your `.cursor/` to match the latest lazy-code-skill repo: clone again, then copy skills, rules, and README (overwriting existing). **`.cursor/plans/` and `.cursor/project_architecture.md` are never overwritten** — if they exist, they are left as-is.
+
+## Updating Anthropic skills (maintainers of this repo only)
+
+In the **lazy-code-skill repo** (not in projects that install it), run the sync script to refresh `.cursor/skills/anthropic/` from [anthropics/skills](https://github.com/anthropics/skills):
+
+```bash
+bash .cursor/scripts/sync-anthropic-skills.sh
+```
+
+Then review and commit. Downstream projects that install this repo do not run this script; they receive the already-synced copy when they install or update.

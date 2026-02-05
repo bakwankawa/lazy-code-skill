@@ -2,7 +2,9 @@
 
 ## 1. Project Overview
 
-**What it does:** Collection of Cursor **skills** and **rules** in two namespaces: **`.cursor/skills/lazy-code-skill/`** (own: pre-commit docs sync, new-project scaffold, dual-remote push, efficient code, latency logging) and **`.cursor/skills/superpowers/`** (from [Superpowers](https://github.com/obra/superpowers): brainstorming, writing-plans, TDD, debugging, code review, git worktrees, etc.). One **rule**: **skill-first-engineering** (skills first + deliberate, efficient implementation). Install at **project level** so any Cursor project can use them.
+**What it does:** Collection of Cursor **skills** and **rules** in three namespaces: **`.cursor/skills/lazy-code-skill/`** (own: pre-commit docs sync, new-project scaffold, dual-remote push, efficient code, latency logging), **`.cursor/skills/superpowers/`** (from [Superpowers](https://github.com/obra/superpowers): brainstorming, writing-plans, TDD, debugging, code review, git worktrees, etc.), and **`.cursor/skills/anthropic/`** (from [anthropics/skills](https://github.com/anthropics/skills): all Anthropic example skills, synced via script). One **rule**: **skill-first-engineering** (skills first + deliberate, efficient implementation). Install at **project level** so any Cursor project can use them.
+
+**Anthropic skills:** Cursor discovers skills under `.cursor/skills/anthropic/<skill-name>/SKILL.md` automatically. No extra wiring. Skills are mirrored as-is from upstream; Cursor-specific adaptations (paths, wording) can be added in a later plan if needed.
 
 **Who it is for:** Developers using Cursor who want shared workflows and standards (docs sync, scaffolding, dual-remote push, etc.) in their projects.
 
@@ -43,13 +45,13 @@ The agent will (or you can run from project root):
 
 1. Clone this repo into `.cursor/lazy-code-skill`
 2. Create `.cursor/skills` and `.cursor/rules`
-3. Copy both skill folders to `.cursor/skills/lazy-code-skill/` and `.cursor/skills/superpowers/`
+3. Copy all three skill folders to `.cursor/skills/lazy-code-skill/`, `.cursor/skills/superpowers/`, and `.cursor/skills/anthropic/`
 4. Copy rules to `.cursor/rules/` with prefix `lazy-code-skill-`
 5. Copy `.cursor/project_architecture.md` only if missing (never overwrite if user already has it)
 6. Copy README to `.cursor/lazy-code-skill-README.md` (Basic Workflow reference)
 7. Remove the clone so only skills, rules, and README copy remain. `.cursor/plans/` and `.cursor/project_architecture.md` are never overwritten if they exist.
 
-**Success:** You have `.cursor/skills/lazy-code-skill/`, `.cursor/skills/superpowers/`, and `.cursor/rules/lazy-code-skill-*.mdc`. Cursor discovers them automatically.
+**Success:** You have `.cursor/skills/lazy-code-skill/`, `.cursor/skills/superpowers/`, `.cursor/skills/anthropic/`, and `.cursor/rules/`. Cursor discovers them automatically.
 
 ### Step 3: Use skills and rules
 
@@ -95,6 +97,8 @@ When you use the Superpowers-style skills, this is the intended order. The agent
 **To update skills from Superpowers:** In Cursor Agent, ask the agent to run the sync script:  
 `./.cursor/scripts/sync-superpowers-skills.sh`  
 (from the repo root). Then review and commit.
+
+**To update Anthropic skills:** Only in this repo (lazy-code-skill). Run `./.cursor/scripts/sync-anthropic-skills.sh` from repo root, then review and commit. Installing projects get the synced copy; they do not run the script.
 
 ---
 
