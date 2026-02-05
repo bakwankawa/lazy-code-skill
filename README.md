@@ -104,9 +104,10 @@ When you use the Superpowers-style skills, this is the intended order. The agent
 
 ## 7. Common Changes Introduced by This Commit
 
-- **Install: copy README on install.** INSTALL.md now includes step 6: copy repo README to `.cursor/lazy-code-skill-README.md` in the target project so Basic Workflow and sync instructions are available without overwriting the project's README.
-- **project_architecture.md:** Data flow and Components updated to include `.cursor/lazy-code-skill-README.md`.
+- **Install: copy README on install.** INSTALL.md includes step 6: copy repo README to `.cursor/lazy-code-skill-README.md` in the target project so Basic Workflow and sync instructions are available without overwriting the project's README.
+- **project_architecture.md:** Data flow and Components updated to include `.cursor/lazy-code-skill-README.md` and all three skill namespaces; Data Flow step 2 describes copying all three skill folders.
 - **Cursor adaptation (Superpowers):** Skills in `.cursor/skills/superpowers/` updated for Cursor: paths (`.cursor/skills/`), project rules (`.cursor/rules/`), agent-agnostic wording (ASO), Cursor variant in writing-skills examples, Subagents note in subagent-driven-development and dispatching-parallel-agents.
+- **Anthropic skills namespace:** Three namespaces (lazy-code-skill, superpowers, anthropic). `.cursor/skills/anthropic/` is synced from [anthropics/skills](https://github.com/anthropics/skills) via `./.cursor/scripts/sync-anthropic-skills.sh` (maintainers of this repo only). Install copies all three skill folders; README and INSTALL.md document how to update Anthropic skills.
 
 ---
 

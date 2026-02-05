@@ -20,7 +20,7 @@ This repo is a collection of **Cursor skills and rules** installable at **projec
 ## Data Flow
 
 1. User pastes the raw INSTALL.md URL in Cursor Agent.
-2. Agent fetches INSTALL.md and runs: clone repo into `.cursor/lazy-code-skill`, copy both skill folders, rules (replacing existing lazy-code-skill-*.mdc), and README (as `.cursor/lazy-code-skill-README.md`); copy project_architecture.md only if missing. Then remove the clone. Re-running install force-updates skills, rules, and README; **`.cursor/plans/` and `.cursor/project_architecture.md` are never overwritten** if they already exist.
+2. Agent fetches INSTALL.md and runs: clone repo into `.cursor/lazy-code-skill`, copy all three skill folders (lazy-code-skill, superpowers, anthropic), rules (replacing existing lazy-code-skill-*.mdc), and README (as `.cursor/lazy-code-skill-README.md`); copy project_architecture.md only if missing. Then remove the clone. Re-running install force-updates skills, rules, and README; **`.cursor/plans/` and `.cursor/project_architecture.md` are never overwritten** if they already exist.
 3. Cursor discovers skills and rules from `.cursor/skills/` and `.cursor/rules/`.
 
 ## Deprecated / Removed
