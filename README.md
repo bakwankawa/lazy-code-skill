@@ -2,7 +2,7 @@
 
 ## 1. Project Overview
 
-**What it does:** Collection of Cursor **skills** and **rules** in three namespaces: **`.cursor/skills/lazy-code-skill/`** (own: pre-commit docs sync, new-project scaffold, dual-remote push, efficient code, latency logging), **`.cursor/skills/superpowers/`** (from [Superpowers](https://github.com/obra/superpowers): brainstorming, writing-plans, TDD, debugging, code review, git worktrees, etc.), and **`.cursor/skills/anthropic/`** (from [anthropics/skills](https://github.com/anthropics/skills): all Anthropic example skills, synced via script). One **rule**: **skill-first-engineering** (skills first + deliberate, efficient implementation). Install at **project level** so any Cursor project can use them.
+**What it does:** Collection of Cursor **skills** and **rules** in three namespaces: **`.cursor/skills/lazy-code-skill/`** (own: pre-commit docs sync, new-project scaffold, dual-remote push, efficient code, latency logging, jira skill collection), **`.cursor/skills/superpowers/`** (from [Superpowers](https://github.com/obra/superpowers): brainstorming, writing-plans, TDD, debugging, code review, git worktrees, etc.), and **`.cursor/skills/anthropic/`** (from [anthropics/skills](https://github.com/anthropics/skills): all Anthropic example skills, synced via script). One **rule**: **skill-first-engineering** (skills first + deliberate, efficient implementation). Install at **project level** so any Cursor project can use them.
 
 **Anthropic skills:** Cursor discovers skills under `.cursor/skills/anthropic/<skill-name>/SKILL.md` automatically. No extra wiring. Skills are mirrored as-is from upstream; Cursor-specific adaptations (paths, wording) can be added in a later plan if needed.
 
@@ -108,6 +108,8 @@ When you use the Superpowers-style skills, this is the intended order. The agent
 - **project_architecture.md:** Data flow and Components updated to include `.cursor/lazy-code-skill-README.md` and all three skill namespaces; Data Flow step 2 describes copying all three skill folders.
 - **Cursor adaptation (Superpowers):** Skills in `.cursor/skills/superpowers/` updated for Cursor: paths (`.cursor/skills/`), project rules (`.cursor/rules/`), agent-agnostic wording (ASO), Cursor variant in writing-skills examples, Subagents note in subagent-driven-development and dispatching-parallel-agents.
 - **Anthropic skills namespace:** Three namespaces (lazy-code-skill, superpowers, anthropic). `.cursor/skills/anthropic/` is synced from [anthropics/skills](https://github.com/anthropics/skills) via `./.cursor/scripts/sync-anthropic-skills.sh` (maintainers of this repo only). Install copies all three skill folders; README and INSTALL.md document how to update Anthropic skills.
+
+- **Jira skill collection:** Added Jira skill under `.cursor/skills/lazy-code-skill/jira/` mirroring the upstream Jira skill README and reference files, enabling conversational Jira operations via jira CLI or Atlassian MCP.
 
 ---
 

@@ -9,7 +9,7 @@ This repo is a collection of **Cursor skills and rules** installable at **projec
 | Path | Role |
 |------|------|
 | `.cursor/INSTALL.md` | Install instructions: clone, copy skills/rules, optional project_architecture template. |
-| `.cursor/skills/lazy-code-skill/` | Own skills: dual-remote-push, efficient-code, latency-logging, new-project-scaffold, pre-commit-docs-sync. |
+| `.cursor/skills/lazy-code-skill/` | Own skills: dual-remote-push, efficient-code, latency-logging, new-project-scaffold, pre-commit-docs-sync, jira skill collection. |
 | `.cursor/skills/superpowers/` | From obra/superpowers: brainstorming, dispatching-parallel-agents, executing-plans, finishing-a-development-branch, receiving-code-review, requesting-code-review, subagent-driven-development, systematic-debugging, test-driven-development, using-git-worktrees, verification-before-completion, writing-plans, writing-skills. |
 | `.cursor/skills/anthropic/` | From anthropics/skills: all example skills; synced via sync-anthropic-skills.sh. |
 | `.cursor/rules/` | skill-first-engineering (single rule: skills first + deliberate, efficient implementation; replaces former efficient-and-deliberate and using-superpowers). |
