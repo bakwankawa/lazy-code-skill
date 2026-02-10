@@ -5,6 +5,16 @@ Quick setup to enable lazy-code-skill rules and skills in Cursor at **project le
 > **Important:** Cursor does not discover symlinked rules or skills. This installation uses copy-based setup. The cloned repo is removed after copy (step 7). To update, re-run the full installation (see Updating).
 >
 > **Re-run = force update:** Running the install again overwrites skills, rules, and the README copy so your `.cursor/` matches the latest lazy-code-skill repo. **`.cursor/plans/` and `.cursor/project_architecture.md` are never overwritten** — if they exist, their contents are left unchanged.
+>
+> **Safe update guarantee:** This process does **not** delete other folders in `.cursor/`. It only modifies:
+> - `.cursor/skills/lazy-code-skill`
+> - `.cursor/skills/superpowers`
+> - `.cursor/skills/anthropic`
+> - `.cursor/rules/lazy-code-skill-*.mdc`
+> - `.cursor/lazy-code-skill-README.md`
+> - Temporary clone folder `.cursor/lazy-code-skill` (removed at the end)
+>
+> Other paths like `.cursor/conversations/`, `.cursor/docs/`, `.cursor/plans/`, `.cursor/reviews/`, `.cursor/test/`, and any custom folders are preserved.
 
 ## Installation (project-level)
 
@@ -116,7 +126,7 @@ Remove-Item -Recurse -Force .cursor/lazy-code-skill
 
 ## Updating
 
-Re-run the same installation (steps 1–7) to **force update** your `.cursor/` to match the latest lazy-code-skill repo: clone again, then copy skills, rules, and README (overwriting existing). **`.cursor/plans/` and `.cursor/project_architecture.md` are never overwritten** — if they exist, they are left as-is.
+Re-run the same installation (steps 1–7) to **force update** your `.cursor/` to match the latest lazy-code-skill repo: clone again, then copy skills, rules, and README (overwriting existing). **Only the paths listed in "Safe update guarantee" are touched.** Other `.cursor/` folders stay unchanged.
 
 ## Updating Anthropic skills (maintainers of this repo only)
 
