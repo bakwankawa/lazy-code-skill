@@ -10,6 +10,7 @@ Quick setup to enable lazy-code-skill rules and skills in Codex at **project lev
 > - `.codex/skills/lazy-code-skill`
 > - `.codex/skills/superpowers`
 > - `.codex/skills/anthropic`
+> - `.codex/skills/vercel-labs`
 > - `.codex/rules/lazy-code-skill-*.mdc`
 > - `.codex/lazy-code-skill-README.md`
 > - Temporary clone folder `.codex/lazy-code-skill` (removed at the end)
@@ -35,24 +36,26 @@ Use branch `main`; if your clone defaults to another branch, run `git -C .codex/
 mkdir -p .codex/skills .codex/rules
 ```
 
-### 3. Copy skills (three namespaces)
+### 3. Copy skills (four namespaces)
 
-Copy all three skill folders: `.codex/skills/lazy-code-skill/` (own), `.codex/skills/superpowers/` (from [Superpowers](https://github.com/obra/superpowers)), and `.codex/skills/anthropic/` (from [anthropics/skills](https://github.com/anthropics/skills)):
+Copy all four skill folders: `.codex/skills/lazy-code-skill/` (own), `.codex/skills/superpowers/` (from [Superpowers](https://github.com/obra/superpowers)), `.codex/skills/anthropic/` (from [anthropics/skills](https://github.com/anthropics/skills)), and `.codex/skills/vercel-labs/` (from [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills/tree/main/skills)):
 
 ```bash
-rm -rf .codex/skills/lazy-code-skill .codex/skills/superpowers .codex/skills/anthropic
+rm -rf .codex/skills/lazy-code-skill .codex/skills/superpowers .codex/skills/anthropic .codex/skills/vercel-labs
 cp -r .codex/lazy-code-skill/.codex/skills/lazy-code-skill .codex/skills/
 cp -r .codex/lazy-code-skill/.codex/skills/superpowers .codex/skills/
 cp -r .codex/lazy-code-skill/.codex/skills/anthropic .codex/skills/
+cp -r .codex/lazy-code-skill/.codex/skills/vercel-labs .codex/skills/
 ```
 
 On Windows (PowerShell):
 
 ```powershell
-Remove-Item -Recurse -Force .codex/skills/lazy-code-skill, .codex/skills/superpowers, .codex/skills/anthropic -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force .codex/skills/lazy-code-skill, .codex/skills/superpowers, .codex/skills/anthropic, .codex/skills/vercel-labs -ErrorAction SilentlyContinue
 Copy-Item -Recurse .codex/lazy-code-skill/.codex/skills/lazy-code-skill .codex/skills/
 Copy-Item -Recurse .codex/lazy-code-skill/.codex/skills/superpowers .codex/skills/
 Copy-Item -Recurse .codex/lazy-code-skill/.codex/skills/anthropic .codex/skills/
+Copy-Item -Recurse .codex/lazy-code-skill/.codex/skills/vercel-labs .codex/skills/
 ```
 
 ### 4. Copy rules (with prefix, force update)
@@ -137,3 +140,23 @@ bash .codex/scripts/sync-anthropic-skills.sh
 ```
 
 Then review and commit. Downstream projects that install this repo do not run this script; they receive the already-synced copy when they install or update.
+
+## Updating Vercel Labs skills (maintainers of this repo only)
+
+In the **lazy-code-skill repo** (not in projects that install it), run the sync script to refresh `.codex/skills/vercel-labs/` from [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills/tree/main/skills):
+
+```bash
+bash .codex/scripts/sync-vercel-labs-skills.sh
+```
+
+Then review and commit. Downstream projects that install this repo do not run this script; they receive the already-synced copy when they install or update.
+
+## Updating all upstream skill namespaces at once (maintainers of this repo only)
+
+In the **lazy-code-skill repo**, run:
+
+```bash
+bash .codex/scripts/sync-all-upstreams.sh
+```
+
+This runs Superpowers + Anthropic + Vercel Labs sync sequentially for `.codex/skills/`. Then review and commit.

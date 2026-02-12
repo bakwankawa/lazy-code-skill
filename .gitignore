@@ -1,3 +1,8 @@
 .cursor/.superpowers-upstream/
 .cursor/.anthropic-upstream/
+.cursor/.vercel-labs-upstream/
+.codex/.superpowers-upstream/
+.codex/.anthropic-upstream/
+.codex/.vercel-labs-upstream/
 .worktrees/
+plans/

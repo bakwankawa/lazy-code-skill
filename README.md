@@ -2,9 +2,9 @@
 
 ## 1. Project Overview
 
-**What it does:** Collection of agent **skills** and **rules** in mirrored namespaces for both Cursor (`.cursor/...`) and Codex (`.codex/...`). Includes three skill namespaces: `lazy-code-skill` (own: pre-commit docs sync, new-project scaffold, dual-remote push, efficient code, latency logging, jira skill collection), `superpowers` (from [Superpowers](https://github.com/obra/superpowers): brainstorming, writing-plans, TDD, debugging, code review, git worktrees, etc.), and `anthropic` (from [anthropics/skills](https://github.com/anthropics/skills): synced example skills). One **rule**: **skill-first-engineering** (skills first + deliberate, efficient implementation). Install at **project level** for Cursor or Codex projects.
+**What it does:** Collection of agent **skills** and **rules** in mirrored namespaces for both Cursor (`.cursor/...`) and Codex (`.codex/...`). Includes four skill namespaces: `lazy-code-skill` (own: pre-commit docs sync, new-project scaffold, dual-remote push, efficient code, latency logging, jira skill collection), `superpowers` (from [Superpowers](https://github.com/obra/superpowers): brainstorming, writing-plans, TDD, debugging, code review, git worktrees, etc.), `anthropic` (from [anthropics/skills](https://github.com/anthropics/skills): synced example skills), and `vercel-labs` (from [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills/tree/main/skills): synced skills). One **rule**: **skill-first-engineering** (skills first + deliberate, efficient implementation). Install at **project level** for Cursor or Codex projects.
 
-**Anthropic skills:** Agents discover skills under `.cursor/skills/anthropic/<skill-name>/SKILL.md` (Cursor) or `.codex/skills/anthropic/<skill-name>/SKILL.md` (Codex). No extra wiring.
+**Upstream skill namespaces:** Agents discover skills under `.cursor/skills/<namespace>/<skill-name>/SKILL.md` (Cursor) or `.codex/skills/<namespace>/<skill-name>/SKILL.md` (Codex). Namespaces synced from upstream in this repo: `anthropic` and `vercel-labs`.
 
 **Who it is for:** Developers using Cursor or Codex who want shared workflows and standards (docs sync, scaffolding, dual-remote push, etc.) in their projects.
 
@@ -51,7 +51,7 @@ The agent will (or you can run from project root):
 
 1. Clone this repo into `.cursor/lazy-code-skill` (Cursor) or `.codex/lazy-code-skill` (Codex)
 2. Create `skills` and `rules` directories in the selected namespace
-3. Copy all three skill folders to `.../skills/lazy-code-skill/`, `.../skills/superpowers/`, and `.../skills/anthropic/`
+3. Copy all four skill folders to `.../skills/lazy-code-skill/`, `.../skills/superpowers/`, `.../skills/anthropic/`, and `.../skills/vercel-labs/`
 4. Copy rules to `.../rules/` with prefix `lazy-code-skill-`
 5. Copy `project_architecture.md` only if missing (never overwrite if user already has it)
 6. Copy README to `.../lazy-code-skill-README.md` (Basic Workflow reference)
@@ -80,7 +80,7 @@ Not applicable. This repo is skills and rules only; there is no application to r
 
 - **Skills** are invoked by the agent when relevant or manually via `/skill-name`.
 - **Rules** (e.g. `lazy-code-skill-skill-first-engineering.mdc`) apply at project level when the agent loads the project.
-- **Updating:** Re-run the full install (steps in section 4) to force-update skills, rules, and README copy in the namespace you use. Update is non-destructive: only lazy-code-skill skill namespaces, prefixed rules, README copy, and temporary clone path are touched. Other folders (for example `conversations/`, `docs/`, `plans/`, `reviews/`, `test/`, custom folders) are preserved.
+- **Updating:** Re-run the full install (steps in section 4) to force-update skills, rules, and README copy in the namespace you use. Update is non-destructive: only `skills/lazy-code-skill`, `skills/superpowers`, `skills/anthropic`, `skills/vercel-labs`, prefixed rules, README copy, and temporary clone path are touched. Other folders (for example `conversations/`, `docs/`, `plans/`, `reviews/`, `test/`, custom folders) are preserved.
 
 ---
 
@@ -110,14 +110,20 @@ When you use the Superpowers-style skills, this is the intended order. The agent
 **To update Anthropic skills:** Only in this repo (lazy-code-skill). Run one of these from repo root, then review and commit:  
 `./.cursor/scripts/sync-anthropic-skills.sh` or `./.codex/scripts/sync-anthropic-skills.sh`. Installing projects get the synced copy; they do not run the script.
 
+**To update Vercel Labs skills:** Only in this repo (lazy-code-skill). Run one of these from repo root, then review and commit:  
+`./.cursor/scripts/sync-vercel-labs-skills.sh` or `./.codex/scripts/sync-vercel-labs-skills.sh`. Installing projects get the synced copy; they do not run the script.
+
+**To update all upstream namespaces at once:**  
+`./.cursor/scripts/sync-all-upstreams.sh` (Cursor namespace) or `./.codex/scripts/sync-all-upstreams.sh` (Codex namespace). This runs Superpowers + Anthropic + Vercel Labs sync sequentially in one command.
+
 ---
 
 ## 7. Common Changes Introduced by This Commit
 
 - **Install: copy README on install.** INSTALL.md includes step 6: copy repo README to `lazy-code-skill-README.md` in the selected namespace (`.cursor/` or `.codex/`) so Basic Workflow and sync instructions are available without overwriting the project's README.
-- **project_architecture.md:** Data flow and Components include `lazy-code-skill-README.md` and all three skill namespaces; installation copies all three skill folders in the selected namespace.
+- **project_architecture.md:** Data flow and Components include `lazy-code-skill-README.md` and all four skill namespaces; installation copies all four skill folders in the selected namespace.
 - **Agent adaptation (Superpowers):** Superpowers skills include project-local paths and agent-agnostic wording for repo usage across Cursor and Codex namespaces.
-- **Anthropic skills namespace:** Three namespaces (lazy-code-skill, superpowers, anthropic). Synced from [anthropics/skills](https://github.com/anthropics/skills) via the corresponding sync script in `.cursor/scripts/` or `.codex/scripts/` (maintainers of this repo only). Install copies all three skill folders.
+- **Upstream skill namespaces:** Four namespaces (lazy-code-skill, superpowers, anthropic, vercel-labs). `anthropic` is synced from [anthropics/skills](https://github.com/anthropics/skills) and `vercel-labs` is synced from [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills/tree/main/skills) via the corresponding sync scripts in `.cursor/scripts/` or `.codex/scripts/` (maintainers of this repo only). Install copies all four skill folders.
 - **Jira skill collection:** Added Jira skill under `lazy-code-skill/jira` (in both namespaces), mirroring upstream Jira skill references for conversational Jira operations via jira CLI or Atlassian MCP.
 
 ---

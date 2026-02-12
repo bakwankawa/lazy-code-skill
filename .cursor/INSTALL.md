@@ -10,6 +10,7 @@ Quick setup to enable lazy-code-skill rules and skills in Cursor at **project le
 > - `.cursor/skills/lazy-code-skill`
 > - `.cursor/skills/superpowers`
 > - `.cursor/skills/anthropic`
+> - `.cursor/skills/vercel-labs`
 > - `.cursor/rules/lazy-code-skill-*.mdc`
 > - `.cursor/lazy-code-skill-README.md`
 > - Temporary clone folder `.cursor/lazy-code-skill` (removed at the end)
@@ -35,24 +36,26 @@ Use branch `main`; if your clone defaults to another branch, run `git -C .cursor
 mkdir -p .cursor/skills .cursor/rules
 ```
 
-### 3. Copy skills (three namespaces)
+### 3. Copy skills (four namespaces)
 
-Copy all three skill folders: `.cursor/skills/lazy-code-skill/` (own), `.cursor/skills/superpowers/` (from [Superpowers](https://github.com/obra/superpowers)), and `.cursor/skills/anthropic/` (from [anthropics/skills](https://github.com/anthropics/skills)):
+Copy all four skill folders: `.cursor/skills/lazy-code-skill/` (own), `.cursor/skills/superpowers/` (from [Superpowers](https://github.com/obra/superpowers)), `.cursor/skills/anthropic/` (from [anthropics/skills](https://github.com/anthropics/skills)), and `.cursor/skills/vercel-labs/` (from [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills/tree/main/skills)):
 
 ```bash
-rm -rf .cursor/skills/lazy-code-skill .cursor/skills/superpowers .cursor/skills/anthropic
+rm -rf .cursor/skills/lazy-code-skill .cursor/skills/superpowers .cursor/skills/anthropic .cursor/skills/vercel-labs
 cp -r .cursor/lazy-code-skill/.cursor/skills/lazy-code-skill .cursor/skills/
 cp -r .cursor/lazy-code-skill/.cursor/skills/superpowers .cursor/skills/
 cp -r .cursor/lazy-code-skill/.cursor/skills/anthropic .cursor/skills/
+cp -r .cursor/lazy-code-skill/.cursor/skills/vercel-labs .cursor/skills/
 ```
 
 On Windows (PowerShell):
 
 ```powershell
-Remove-Item -Recurse -Force .cursor/skills/lazy-code-skill, .cursor/skills/superpowers, .cursor/skills/anthropic -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force .cursor/skills/lazy-code-skill, .cursor/skills/superpowers, .cursor/skills/anthropic, .cursor/skills/vercel-labs -ErrorAction SilentlyContinue
 Copy-Item -Recurse .cursor/lazy-code-skill/.cursor/skills/lazy-code-skill .cursor/skills/
 Copy-Item -Recurse .cursor/lazy-code-skill/.cursor/skills/superpowers .cursor/skills/
 Copy-Item -Recurse .cursor/lazy-code-skill/.cursor/skills/anthropic .cursor/skills/
+Copy-Item -Recurse .cursor/lazy-code-skill/.cursor/skills/vercel-labs .cursor/skills/
 ```
 
 ### 4. Copy rules (with prefix, force update)
@@ -137,3 +140,23 @@ bash .cursor/scripts/sync-anthropic-skills.sh
 ```
 
 Then review and commit. Downstream projects that install this repo do not run this script; they receive the already-synced copy when they install or update.
+
+## Updating Vercel Labs skills (maintainers of this repo only)
+
+In the **lazy-code-skill repo** (not in projects that install it), run the sync script to refresh `.cursor/skills/vercel-labs/` from [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills/tree/main/skills):
+
+```bash
+bash .cursor/scripts/sync-vercel-labs-skills.sh
+```
+
+Then review and commit. Downstream projects that install this repo do not run this script; they receive the already-synced copy when they install or update.
+
+## Updating all upstream skill namespaces at once (maintainers of this repo only)
+
+In the **lazy-code-skill repo**, run:
+
+```bash
+bash .cursor/scripts/sync-all-upstreams.sh
+```
+
+This runs Superpowers + Anthropic + Vercel Labs sync sequentially for `.cursor/skills/`. Then review and commit.
