@@ -16,7 +16,28 @@ Quick setup to enable lazy-code-skill rules and skills in Claude at **project le
 
 ## Installation (project-level)
 
-Run these commands from your **project root** (the directory that will contain `.claude/`).
+Run this command from your **project root** (the directory that will contain `.claude/`).
+
+### Recommended: run the install script
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/bakwankawa/lazy-code-skill/refs/heads/main/.claude/scripts/install.sh)
+```
+
+The script handles all steps automatically and **verifies the result**: it confirms that each skill was installed as a directory (e.g. `.claude/skills/systematic-debugging/`) — not as flat `.md` files. If verification fails, it exits with an error and tells you to re-run.
+
+> **Expected result:** After install, `.claude/skills/` must contain **directories** (one per skill), not individual `.md` files.
+> Run `ls .claude/skills/` to confirm — you should see names like `systematic-debugging`, `brainstorming`, `test-driven-development`, etc.
+> If you see flat `.md` files instead, the install did not complete correctly. Re-run the script above.
+
+---
+
+## Manual installation (fallback)
+
+If you cannot use `curl`, run these commands step-by-step from your **project root**.
+
+> **Agent note:** Each skill is a **directory** containing `SKILL.md` and supporting files.
+> The copy command below preserves this directory structure. Do NOT recursively collect `.md` files flat — that will break skill discovery.
 
 ### 1. Clone the repository
 
@@ -33,20 +54,25 @@ Use branch `main`; if your clone defaults to another branch, run `git -C .claude
 mkdir -p .claude/skills .claude/rules
 ```
 
-### 3. Copy skills (all skills flattened)
-
-Copy all skills directly to `.claude/skills/`:
+### 3. Copy skills (each skill as a directory)
 
 ```bash
 rm -rf .claude/skills/*
-cp -r .claude/lazy-code-skill/.claude/skills/* .claude/skills/
+for skill_dir in .claude/lazy-code-skill/.claude/skills/*/; do
+  [ -d "$skill_dir" ] || continue
+  cp -r "$skill_dir" .claude/skills/
+done
 ```
+
+> **Important:** The loop above copies only directories (one per skill). After this step,
+> `ls .claude/skills/` must show directory names like `systematic-debugging`, `brainstorming`, etc.
+> If it shows `.md` files, something went wrong — do not proceed; re-run from step 1.
 
 On Windows (PowerShell):
 
 ```powershell
 Remove-Item -Recurse -Force .claude/skills/* -ErrorAction SilentlyContinue
-Get-ChildItem -Path .claude/lazy-code-skill/.claude/skills | Copy-Item -Destination .claude/skills/ -Recurse -Force
+Get-ChildItem -Path .claude/lazy-code-skill/.claude/skills -Directory | Copy-Item -Destination .claude/skills/ -Recurse -Force
 ```
 
 ### 4. Copy rules (with prefix, force update)
@@ -113,6 +139,16 @@ On Windows (PowerShell):
 Remove-Item -Recurse -Force .claude/lazy-code-skill
 ```
 
+### 8. Verify
+
+```bash
+ls .claude/skills/
+```
+
+You must see **directory names** (e.g. `systematic-debugging`, `brainstorming`, `test-driven-development`), not individual `.md` files. If you see flat `.md` files, re-run from step 1.
+
+---
+
 ## Usage
 
 - **Skills** appear under Claude Settings → Rules → Agent Decides. They can also be invoked manually in Agent chat with `/skill-name` (e.g. `/pre-commit-docs-sync`, `/dual-remote-push`).
@@ -120,7 +156,7 @@ Remove-Item -Recurse -Force .claude/lazy-code-skill
 
 ## Updating
 
-Re-run the same installation (steps 1–7) to **force update** your `.claude/` to match the latest lazy-code-skill repo: clone again, then copy skills, rules, and README (overwriting existing). **Only the paths listed in "Safe update guarantee" are touched.** Other `.claude/` folders stay unchanged.
+Re-run the install script to **force update** your `.claude/` to match the latest lazy-code-skill repo. **Only the paths listed in "Safe update guarantee" are touched.** Other `.claude/` folders stay unchanged.
 
 ## Updating upstream skills (maintainers of this repo only)
 

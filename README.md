@@ -46,7 +46,7 @@ Fetch and follow instructions from https://raw.githubusercontent.com/bakwankawa/
 For Claude:
 
 ```
-Fetch and follow instructions from https://raw.githubusercontent.com/bakwankawa/lazy-code-skill/refs/heads/main/.claude/INSTALL.md
+Run this in my project root: bash <(curl -fsSL https://raw.githubusercontent.com/bakwankawa/lazy-code-skill/refs/heads/main/.claude/scripts/install.sh)
 ```
 
 **Success:** The agent fetches INSTALL.md and will run the install steps below.
