@@ -29,7 +29,8 @@ rm -rf "${SKILLS_DST:?}"/*
 for skill_dir in "$CLONE_DIR/.claude/skills"/*/; do
   [ -d "$skill_dir" ] || continue
   skill_name=$(basename "$skill_dir")
-  cp -r "$skill_dir" "$SKILLS_DST/"
+  # Strip trailing slash before cp — "dir/" copies contents flat, "dir" copies the directory itself.
+  cp -r "${skill_dir%/}" "$SKILLS_DST/"
   echo "  + $skill_name"
 done
 
