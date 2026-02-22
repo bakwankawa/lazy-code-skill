@@ -86,7 +86,7 @@ All tools that return data should support multiple formats:
 For tools that list resources:
 
 - **Always respect the `limit` parameter**
-- **Implement pagination**: Use `offset` or codex-based pagination
+- **Implement pagination**: Use `offset` or cursor-based pagination
 - **Return pagination metadata**: Include `has_more`, `next_offset`/`next_cursor`, `total_count`
 - **Never load all results into memory**: Especially important for large datasets
 - **Default to reasonable limits**: 20-50 items is typical

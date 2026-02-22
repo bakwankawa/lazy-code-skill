@@ -4,5 +4,8 @@
 .codex/.superpowers-upstream/
 .codex/.anthropic-upstream/
 .codex/.vercel-labs-upstream/
+.claude/.superpowers-upstream/
+.claude/.anthropic-upstream/
+.claude/.vercel-labs-upstream/
 .worktrees/
 plans/
